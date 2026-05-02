@@ -4,6 +4,8 @@ from typing import Any
 
 
 class DataProcessor(ABC):
+    def __init__(self, storage: list) -> None:
+        self._storage = storage
     # check kalau data appropriate tak for current data processor
     @abstractmethod
     def validate(self, data: Any) -> bool:
@@ -12,14 +14,17 @@ class DataProcessor(ABC):
     @abstractmethod
     def ingest(self, data: Any) -> None:
         pass
+
     # output ingested data
-    @abstractmethod
     def output(self) -> tuple[int, str]:
-        pass
+        return pass
 
 
 # ingest int, float and lists of both types(include mix-type list)
 class NumericProcessor(DataProcessor):
+    def validate(self, data: Any) -> bool:
+        return super().validate(data)
+
     def ingest(self, data: Any) -> None:
         return super().ingest(data)
     
@@ -28,6 +33,9 @@ class NumericProcessor(DataProcessor):
 
 
 class TextProcessor(DataProcessor):
+    def validate(self, data: Any) -> bool:
+        return super().validate(data)
+    
     def ingest(self, data: Any) -> None:
         return super().ingest(data)
     
@@ -36,6 +44,9 @@ class TextProcessor(DataProcessor):
 
 
 class LogProcessor(DataProcessor):
+    def validate(self, data: Any) -> bool:
+        return super().validate(data)
+    
     def ingest(self, data: Any) -> None:
         return super().ingest(data)
     
