@@ -23,7 +23,18 @@ class DataProcessor(ABC):
 # ingest int, float and lists of both types(include mix-type list)
 class NumericProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
-        return super().validate(data)
+        if isinstance(data, int):
+            return True
+        elif isinstance(data,float):
+            return True
+        elif isinstance(data, list):
+            for datalist in data:
+                if datalist != int and datalist != float:
+                    return False
+                else:
+                    return True
+        else:
+            return False
 
     def ingest(self, data: Any) -> None:
         return super().ingest(data)
