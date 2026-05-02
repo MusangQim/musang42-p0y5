@@ -42,8 +42,11 @@ class NumericProcessor(DataProcessor):
             return False
 
     def ingest(self, data: Any) -> None:
-        return super().ingest(data)
-    
+        try:
+            raise TypeError("Improper numeric data")
+        except TypeError as e:
+            print(f"Test invalid ingestion of string {data} without prior validation: {e}")
+
 
 class TextProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
