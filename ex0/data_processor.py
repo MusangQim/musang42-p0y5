@@ -60,7 +60,7 @@ class TextProcessor(DataProcessor):
             return True
         else:
             return False
-    
+
     def ingest(self, data: Any) -> None:
         if self.validate(data):
             self._storage.append((self._rank, str(data)))
@@ -69,22 +69,28 @@ class TextProcessor(DataProcessor):
             raise TypeError("Improper text data")
 
 
-
 class LogProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, dict):
-        elif isinstance(data)
-    
+            return True
+        elif isinstance(data, list):
+            for loglist in data:
+                if not isinstance(loglist, dict):
+                    return False
+            return True
+        else:
+            return False
+
     def ingest(self, data: Any) -> None:
-        return super().ingest(data)
-    
-    def output(self) -> tuple[int, str]:
-        return super().output()
+        if self.validate(data):
+            self._storage.append((self._rank, str(data)))
+            self._rank += 1
+        else:
+            raise TypeError("Improper log data")
 
 
 def main() -> None:
     print("=== Code Nexus - Data Processor ===\n")
-
 
 
 if __name__ == "__main__":
