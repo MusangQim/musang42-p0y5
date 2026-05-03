@@ -42,21 +42,32 @@ class NumericProcessor(DataProcessor):
             return False
 
     def ingest(self, data: Any) -> None:
-        try:
+        if self.validate(data):
+            self._storage.append((self._rank, str(data)))
+            self._rank += 1
+        else:
             raise TypeError("Improper numeric data")
-        except TypeError as e:
-            print(f"Test invalid ingestion of string {data} without prior validation: {e}")
 
 
 class TextProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, str):
             return True
+        elif isinstance(data, list):
+            for textlist in data:
+                if not isinstance(textlist, str):
+                    return False
+            return True
         else:
             return False
     
     def ingest(self, data: Any) -> None:
-        return super().ingest(data)
+        if self.validate(data):
+            self._storage.append((self._rank, str(data)))
+            self._rank += 1
+        else:
+            raise TypeError("Improper text data")
+
 
 
 class LogProcessor(DataProcessor):
