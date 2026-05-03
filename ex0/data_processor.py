@@ -72,7 +72,8 @@ class TextProcessor(DataProcessor):
 
 class LogProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
-        return super().validate(data)
+        if isinstance(data, dict):
+        elif isinstance(data)
     
     def ingest(self, data: Any) -> None:
         return super().ingest(data)
