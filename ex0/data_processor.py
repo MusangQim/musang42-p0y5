@@ -82,6 +82,8 @@ class LogProcessor(DataProcessor):
             return False
 
     def ingest(self, data: Any) -> None:
+        data_1 = {'log_level': 'NOTICE', 'log_message': 'Connection to server'}
+        data_2 = {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}
         if self.validate(data):
             self._storage.append((self._rank, str(data)))
             self._rank += 1
