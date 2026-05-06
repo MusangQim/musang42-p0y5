@@ -20,7 +20,7 @@ class DataProcessor(ABC):
 
     # output ingested data
     def output(self) -> tuple[int, str]:
-        item_saved = self._storage.pop(0)
+        item_saved: tuple[int, str] = self._storage.pop(0)
         return item_saved
 
 
@@ -49,6 +49,7 @@ class NumericProcessor(DataProcessor):
             raise TypeError("Improper numeric data")
 
 
+# ingest str and lists of str
 class TextProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, str):
@@ -69,6 +70,7 @@ class TextProcessor(DataProcessor):
             raise TypeError("Improper text data")
 
 
+# ingest dict and lists of dict
 class LogProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, dict):
