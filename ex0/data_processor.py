@@ -82,14 +82,16 @@ class LogProcessor(DataProcessor):
             return False
 
     def ingest(self, data: Any) -> None:
-        if self.validate(dict):
-            format_dict = f"{data['log_level']}: {data['log_message']}"
-            self._storage.append((self._rank, format_dict))
-            self._rank += 1
-        elif self.validate(list):
-            for item in data:
-                format_list = f"{item['log_level']}: {item['log_message']}"
-                self._storage.append((self._rank, format_list))
+        if self.validate(data):
+            if isinstance(data, dict):
+                format_dict = f"{data['log_level']}: {data['log_message']}"
+                self._storage.append((self._rank, format_dict))
+                self._rank += 1
+            elif isinstance(data, list):
+                for item in data:
+                    format_list = f"{item['log_level']}: {item['log_message']}"
+                    self._storage.append((self._rank, format_list))
+                    self._rank += 1
         else:
             raise TypeError("Improper log data")
 
