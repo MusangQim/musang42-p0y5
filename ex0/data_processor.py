@@ -68,13 +68,14 @@ class TextProcessor(DataProcessor):
             return False
 
     def ingest(self, data: Any) -> None:
-        if isinstance(data, list):
-            for item in data:
-                self._storage.append((self._rank, str(item)))
-                self._rank += 1
-            else:
-                self._storage.append((self._rank, str(data)))
-                self._rank += 1
+        if self.validate(data):
+            if isinstance(data, list):
+                for item in data:
+                    self._storage.append((self._rank, str(item)))
+                    self._rank += 1
+                else:
+                    self._storage.append((self._rank, str(data)))
+                    self._rank += 1
         else:
             raise TypeError("Improper text data")
 
