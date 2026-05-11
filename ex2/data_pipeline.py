@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Protocol
 
 
 class DataProcessor(ABC):
@@ -24,7 +24,6 @@ class DataProcessor(ABC):
         return item_saved
 
 
-# ingest int, float and lists of both types(include mix-type list)
 class NumericProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, int):
@@ -54,7 +53,6 @@ class NumericProcessor(DataProcessor):
             raise TypeError("Improper numeric data")
 
 
-# ingest str and lists of str
 class TextProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, str):
@@ -80,7 +78,6 @@ class TextProcessor(DataProcessor):
             raise TypeError("Improper text data")
 
 
-# ingest dict and lists of dict
 class LogProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, dict):
@@ -106,6 +103,27 @@ class LogProcessor(DataProcessor):
                     self._rank += 1
         else:
             raise TypeError("Improper log data")
+
+
+class ExportPlugin(Protocol):
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        ...
+
+
+class CSVExportPlugin:
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        string_csv = ",".join([item[1] for item in data])
+        print("CSV Output:")
+        print(string_csv)
+
+
+class JSONExportPlugin:
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        format: {"item_X": "value", "item_Y": "value"}
+        for tuple in data:
+            key = f"item_{tuple[0]}"
+            value = tuple[1]
+        print("JSON Output:")
 
 
 class DataStream:
@@ -136,6 +154,16 @@ class DataStream:
             remaining = len(processor._storage)
             print(f"{name}: total {total} items processed,"
                   f" remaining {remaining} on processor")
+    
+    def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
+        for processor in self._processors:
+            collected = []
+            while nb:
+                if not processor._storage:
+                    item = processor.output()
+                    item.append(collected)
+            if collected == 0:
+                plugin.process_output(collected)
 
 
 def main() -> None:
