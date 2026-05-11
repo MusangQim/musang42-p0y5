@@ -141,12 +141,14 @@ class DataStream:
 def main() -> None:
     print("=== Code Nexus - Data Stream ===\n")
     stream = DataStream()
-    print("Initialize Data Stream...")
+    print("Initialize Data Stream...\n")
     print("== DataStream statisctics ==")
     stream.print_processors_stats()
-# === NumericProcessor running.... ===
-    print("\nRegistering Numeric Processor\n")
+# === Processors running.... ===
+    print("\nRegistering Processors\n")
     stream.register_processor(NumericProcessor())
+    stream.register_processor(TextProcessor())
+    stream.register_processor(LogProcessor())
     log_batch = [{'log_level': 'WARNING',
                   'log_message': 'Telnet access! Use ssh instead'},
                  {'log_level': 'INFO',
@@ -159,27 +161,8 @@ def main() -> None:
         42,
         ['Hi', 'five']
     ]
-    print(f"Send first batch of data on stream: {n1_batch}")
+    print(f"Send first batch of data on stream: {n1_batch}\n")
     stream.process_stream(n1_batch)
-    print("== DataStream statistics ==")
-    stream.print_processors_stats()
-# === Other data Processor running.... ===
-    print("\nRegistering other data processors")
-    stream.register_processor(TextProcessor())
-    stream.register_processor(LogProcessor())
-    print("Send the same batch again")
-    stream.process_stream(n1_batch)
-    print("== DataStream statistics ==")
-    stream.print_processors_stats()
-# === Consuming elements.... ===
-    print("\nConsume some elements from the "
-          "data processors: Numeric 3, Text 2, Log 1")
-    for i in range(3):
-        stream._processors[0].output()
-    for j in range(2):
-        stream._processors[1].output()
-    for k in range(1):
-        stream._processors[2].output()
     print("== DataStream statistics ==")
     stream.print_processors_stats()
 
