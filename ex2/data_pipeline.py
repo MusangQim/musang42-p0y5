@@ -209,7 +209,7 @@ def main() -> None:
                     'log_message': 'Certificate expires in 10 days'}
                    ]
     n2_batch = [
-        '21',
+        21,
         ['I love AI', 'LLMs are wonderful', 'Stay healthy'],
         log_batch_2,
         [32, 42, 64, 84, 128, 168],
