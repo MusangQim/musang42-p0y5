@@ -157,7 +157,7 @@ class DataStream:
             remaining = len(processor._storage)
             print(f"{name}: total {total} items processed,"
                   f" remaining {remaining} on processor")
-    
+
     def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
         for processor in self._processors:
             collected = []
