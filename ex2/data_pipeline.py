@@ -119,11 +119,14 @@ class CSVExportPlugin:
 
 class JSONExportPlugin:
     def process_output(self, data: list[tuple[int, str]]) -> None:
-        format: {"item_X": "value", "item_Y": "value"}
-        for tuple in data:
-            key = f"item_{tuple[0]}"
-            value = tuple[1]
+        format = []
+        for item in data:
+            key = f"item_{item[0]}"
+            value = item[1]
+            format.append(f'"{key}": "{value}"')
+        string_json = "{" + ", ".join(format) + "}"
         print("JSON Output:")
+        print(string_json)
 
 
 class DataStream:
