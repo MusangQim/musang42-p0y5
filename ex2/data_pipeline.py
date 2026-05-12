@@ -158,11 +158,11 @@ class DataStream:
     def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
         for processor in self._processors:
             collected = []
-            while nb:
-                if not processor._storage:
+            for i in range(nb):
+                if processor._storage:
                     item = processor.output()
-                    item.append(collected)
-            if collected == 0:
+                    collected.append(item)
+            if collected:
                 plugin.process_output(collected)
 
 
