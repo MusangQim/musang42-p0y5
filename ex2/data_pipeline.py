@@ -196,6 +196,35 @@ def main() -> None:
     stream.process_stream(n1_batch)
     print("== DataStream statistics ==")
     stream.print_processors_stats()
+# === CSV Plugin Process ===
+    print("\nSend 3 processed data from each processor to a CSVplugin:")
+    csv_plugin = CSVExportPlugin()
+    stream.output_pipeline(3, csv_plugin)
+    print("\n== DataStream statistics ==")
+    stream.print_processors_stats()
+# === Another data for CSV Plugin Process ===
+    log_batch_2 = [{'log_level': 'ERROR',
+                    'log_message': '500 server crash'},
+                   {'log_level': 'NOTICE',
+                    'log_message': 'Certificate expires in 10 days'}
+                   ]
+    n2_batch = [
+        '21',
+        ['I love AI', 'LLMs are wonderful', 'Stay healthy'],
+        log_batch_2,
+        [32, 42, 64, 84, 128, 168],
+        'World hello'
+    ]
+    print(f"\nSend another batch of data: {n2_batch}")
+    stream.process_stream(n2_batch)
+    print("\n== DataStream statistics ==")
+    stream.print_processors_stats()
+# === JSON Plugin Process ===
+    print("Send 5 processed data from each processor to a JSON plugin:")
+    json_plugin = JSONExportPlugin()
+    stream.output_pipeline(5, json_plugin)
+    print("\n== DataStream statistics ==")
+    stream.print_processors_stats()
 
 
 if __name__ == "__main__":
