@@ -47,9 +47,9 @@ class NumericProcessor(DataProcessor):
                 for item in data:
                     self._storage.append((self._rank, str(item)))
                     self._rank += 1
-                else:
-                    self._storage.append((self._rank, str(data)))
-                    self._rank += 1
+            else:
+                self._storage.append((self._rank, str(data)))
+                self._rank += 1
         else:
             raise TypeError("Improper numeric data")
 
@@ -73,9 +73,9 @@ class TextProcessor(DataProcessor):
                 for item in data:
                     self._storage.append((self._rank, str(item)))
                     self._rank += 1
-                else:
-                    self._storage.append((self._rank, str(data)))
-                    self._rank += 1
+            else:
+                self._storage.append((self._rank, str(data)))
+                self._rank += 1
         else:
             raise TypeError("Improper text data")
 
