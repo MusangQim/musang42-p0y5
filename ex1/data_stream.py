@@ -47,9 +47,9 @@ class NumericProcessor(DataProcessor):
                 for item in data:
                     self._storage.append((self._rank, str(item)))
                     self._rank += 1
-                else:
-                    self._storage.append((self._rank, str(data)))
-                    self._rank += 1
+            else:
+                self._storage.append((self._rank, str(data)))
+                self._rank += 1
         else:
             raise TypeError("Improper numeric data")
 
@@ -73,9 +73,9 @@ class TextProcessor(DataProcessor):
                 for item in data:
                     self._storage.append((self._rank, str(item)))
                     self._rank += 1
-                else:
-                    self._storage.append((self._rank, str(data)))
-                    self._rank += 1
+            else:
+                self._storage.append((self._rank, str(data)))
+                self._rank += 1
         else:
             raise TypeError("Improper text data")
 
@@ -132,6 +132,7 @@ class DataStream:
             print("No processor found, no data")
         for processor in self._processors:
             name = type(processor).__name__
+            name = name.replace("Processor", " Processor")
             total = processor._rank
             remaining = len(processor._storage)
             print(f"{name}: total {total} items processed,"
