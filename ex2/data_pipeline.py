@@ -46,9 +46,9 @@ class NumericProcessor(DataProcessor):
                 for item in data:
                     self._storage.append((self._rank, str(item)))
                     self._rank += 1
-                else:
-                    self._storage.append((self._rank, str(data)))
-                    self._rank += 1
+            else:
+                self._storage.append((self._rank, str(data)))
+                self._rank += 1
         else:
             raise TypeError("Improper numeric data")
 
@@ -71,9 +71,9 @@ class TextProcessor(DataProcessor):
                 for item in data:
                     self._storage.append((self._rank, str(item)))
                     self._rank += 1
-                else:
-                    self._storage.append((self._rank, str(data)))
-                    self._rank += 1
+            else:
+                self._storage.append((self._rank, str(data)))
+                self._rank += 1
         else:
             raise TypeError("Improper text data")
 
@@ -153,6 +153,7 @@ class DataStream:
             print("No processor found, no data")
         for processor in self._processors:
             name = type(processor).__name__
+            name = name.replace("Processor", " Processor")
             total = processor._rank
             remaining = len(processor._storage)
             print(f"{name}: total {total} items processed,"
@@ -220,7 +221,7 @@ def main() -> None:
     print("\n== DataStream statistics ==")
     stream.print_processors_stats()
 # === JSON Plugin Process ===
-    print("Send 5 processed data from each processor to a JSON plugin:")
+    print("\nSend 5 processed data from each processor to a JSON plugin:")
     json_plugin = JSONExportPlugin()
     stream.output_pipeline(5, json_plugin)
     print("\n== DataStream statistics ==")
